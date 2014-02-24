@@ -1,13 +1,13 @@
 @scripts = {}
 @main("Contribution") {
-  <form method="post" name="idea" ng-controller="IdeaCreateCtrl" ng-submit="doCreate">
-    <div class="form-group">
-      <label for="content">アイデアの内容</label>
-      <textarea rows="5" cols="100" ng-model="idea.content" require></textarea>
-      <span class="error" ng-show="idea.content.$error.required">必須</span>
-    </div>
-    <button type="submit" class="btn btn-default" ng-disabled="idea.$invalid">submit</button>
-  </form>  
-  
-  <p>{{idea.content}}</p>
+  <div ng-app="IdeaCrateApp">
+      <form method="post" role="form" name="idea" ng-controller="IdeaCreateCtrl" ng-submit="doCreate()">
+        <div class="form-group">
+          <label for="content">アイデアの内容</label>
+          <textarea rows="5" cols="100" ng-model="idea.content" require></textarea>
+          <span class="error" ng-show="idea.content.$error.required">必須</span>
+        </div>
+        <inpu type="submit" id="submit" class="btn btn-default" ng-disabled="idea.$invalid">submit</button>
+      </form>  
+  </div>
 }
