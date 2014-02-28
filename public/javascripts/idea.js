@@ -1,3 +1,5 @@
+var ideaCreateApp = angular.module('IdeaCreateApp', []);
+
 function IdeaCreateCtrl($scope, $http) {
 
     $scope.ideas = [];
