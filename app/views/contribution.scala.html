@@ -1,43 +1,55 @@
+@(twitterAccount: Option[String])
 @scripts = {}
-@main("Contribution") {
+@main("Contribution", twitterAccount) {
 @**
 <form ng-submit="doCreate()" ng-controller="IdeaCreateCtrl">
-  Enter text and hit enter:
-  <input type="text" ng-model="idea.content"/>
-  <input type="submit" id="doCreate" value="Submit" />
+    Enter text and hit enter:
+    <input type="text" ng-model="idea.content"/>
+    <input type="submit" id="doCreate" value="Submit"/>
 </form>
 **@
-  <div ng-app="IdeaCreateApp" ng-controller="IdeaCreateCtrl" data-ng-init="init()">
-      <form method="post" role="form" name="idea" ng-submit="doCreate()">
+<div ng-app="IdeaCreateApp" ng-controller="IdeaCreateCtrl" data-ng-init="init()">
+    <form method="post" role="form" name="idea" ng-submit="doCreate('@twitterAccount.get')">
         <div class="form-group">
-          <label for="content">アイデアの内容</label>
-          <textarea rows="5" cols="100" ng-model="idea.content" require></textarea>
-          <span class="error" ng-show="idea.content.$error.required">必須</span>
+            <label for="content">アイデアの内容</label><br/>
+            <textarea class="form-control" rows="5" ng-model="idea.content" require></textarea>
+            <span class="error" ng-show="idea.content.$error.required">必須</span>
         </div>
-        <input type="submit" id="submit" class="btn btn-default" ng-disabled="idea.$invalid">submit</button>
-      </form>
-  <p>{{errorMessage}}</p>
-  <p class="bg-success">{{successMessage}}</p>
+        <input type="submit" id="submit" class="btn btn-default" ng-disabled="idea.$invalid" value="投稿する">
+    </form>
 
+    @** message **@
+    <p>{{errorMessage}}</p>
+    <p class="bg-success">{{successMessage}}</p>
 
-  <p>内容: {{idea.content}}</p>
+    <div class="row">
 
-  <p>以前に投稿した内容</p>
-  @**
-  <div ng-repeat="idea in ideas">
-    idea: {{idea.content}}</br>
-  </div>
-  **@
+        <div class="col-md-6">
+            <h3>Ideas <span class="label label-success">Own</span></h3>
+            <div class="panel panel-default" ng-repeat="idea in ideas | filter: '@twitterAccount.get' | orderBy: idea.id">
+                <div class="panel-body">
+                    {{idea.content}}
+                </div>
+            </div>
+        </div>
 
-  <table class="table table-striped">
-    <tr>
-      <th>内容</th>
-    </tr>
-    <tr ng-repeat="idea in ideas">
-      <td>{{idea.content}}</td>
-    </tr>
-  </table>
+        <div class="col-md-6">
+            <h3>Ideas <span class="label label-info">The Others</span></h3>
+            <div class="panel panel-primary" ng-repeat="idea in ideas | filter: '!@twitterAccount.get'">
+                <div class="panel-heading">
+                    @@{{idea.twitterAccount}}
+                </div>
+                <div class="panel-body">
+                    {{idea.content}}
+                </div>
+                <div class="panel-footer">
+                    @** comment の投稿 **@
+                    <input type="text" placeholder="comment">
+                    <button>comment</button>
+                </div>
+            </div>
+        </div>
 
-
-  </div>
+    </div>
+</div>
 }

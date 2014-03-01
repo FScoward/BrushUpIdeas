@@ -1,9 +1,12 @@
-@(message: String)
+@(message: String, twitterAccount: Option[String])
 @scripts = {}
-@main("Welcome to Play") {
+@main("Welcome to Play", twitterAccount) {
 
-<h2>あなたのアイデアが形になる？！</h2>
-
-twitter でログイン
+<div class="jumbotron">
+  <h2>あなたのアイデアが形になる</h2>
+  <p>aaaaa</p>
+  <p><a class="btn btn-primary btn-lg" role="button" href="/login">Learn more</a></p>
+  twitter でログイン
+</div>
 
 }

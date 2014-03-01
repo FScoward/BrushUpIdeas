@@ -1,0 +1,18 @@
+@(twitterAccount: Option[String])
+@scripts = {}
+@main("Ideas", twitterAccount) {
+  @** 投稿されたアイデア一覧を並べる **@
+
+<div ng-app="IdeaCreateApp" ng-controller="IdeaCreateCtrl" data-ng-init="init()">
+  <table class="table table-striped">
+    <tr>
+      <th>アイデア一覧</th>
+    </tr>
+    <tr ng-repeat="idea in ideas">
+      <td>{{idea.content}}</td>
+    </tr>
+  </table>
+
+  <a href="/contribution">投稿</a>
+</div>
+}

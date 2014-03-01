@@ -15,19 +15,24 @@ object ContributionController extends Controller {
   implicit val ideaReads = Json.reads[jsonIdea]
   implicit val ideaWrites = Json.writes[Idea]
 
-  def index = Action {
-    Ok(views.html.contribution.render())
+  def index = Action { request =>
+      request.session.get("twitterAccount") match {
+        case Some(x) => Ok(views.html.contribution(Some(x)))
+        case None => Ok(views.html.index("Your new application is ready.", None)).withNewSession
+    }
   }
 
   def createIdea = Action(parse.json) { request =>
     import models.database._
+
+    val twitterAccount = request.session.get("twitterAccount")
 
     val json = request.body
     json.validate[jsonIdea].fold(
       invalid = { x => { BadRequest(x.toString) } },
       valid = (js => {
         try {
-          Ideas.create(new Idea(content = js.content, twitterAccount = "dummy twitterAccount"))
+          Ideas.create(new Idea(content = js.content, twitterAccount = twitterAccount.get, iine = 0))
           Ok
         } catch {
           case e: JdbcSQLException => {
@@ -39,12 +44,14 @@ object ContributionController extends Controller {
       }))
   }
 
-  def readIdeas = Action {
-    val res = models.database.Ideas.findByAccount("dummy twitterAccount")
+  def readIdeas = Action { request =>
+
+//    val res = models.database.Ideas.findByAccount("dummy twitterAccount")
+    val res = models.database.Ideas.findAll
     Ok(
       Json.toJson(
         res.map(idea => {
-          Json.toJson(new Idea(idea.id, idea.content, idea.twitterAccount))
+          Json.toJson(new Idea(idea.id, idea.content, idea.twitterAccount, idea.iine))
         }).toList))
   }
 }
