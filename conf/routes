@@ -7,8 +7,10 @@ GET     /                           controllers.Application.index
 GET     /contribution               controllers.ContributionController.index
 POST    /createIdea                 controllers.ContributionController.createIdea
 POST    /readIdeas                  controllers.ContributionController.readIdeas
-GET     /login                      controllers.Application.login
+GET     /login                      controllers.login.LoginController.login
 GET     /logout                     controllers.Application.logout
+GET     /ideas                      controllers.Application.ideas
+GET     /callback                   controllers.login.LoginController.callback
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

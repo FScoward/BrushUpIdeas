@@ -25,18 +25,36 @@
             <p class="navbar-text">To brush up on the idea</p>
           </div>
           <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
               @{twitterAccount match {
-                case Some(twitterAccount) => <li><a href="/logout">Logout</a></li>
+                case Some(twitterAccount) => {
+            <ul class="nav navbar-nav">
+              <li><a href="/ideas">アイデア一覧</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+                }
                 case None =>
               }}
               <!--<li><a href="/logout">Logout</a></li>-->
-            </ul>
           </div>
         </div>
       </nav>
       <div class="container">
         @content
+
+        @** Google Adsense **@
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- ビッグバナー -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-1382714222792206"
+         data-ad-slot="7543077290"></ins>
+    <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        @** Google Adsense **@
+
       </div>
     </body>
 </html>

@@ -12,15 +12,22 @@ object Application extends Controller {
     }
   }
   
-  // TODO
   def login = Action {
 //    Ok(views.html.contribution()).withSession("twitterAccount" -> "dummy")
+    // TODO
     Ok(views.html.ideas(None)).withSession("twitterAccount" -> "FScoward")
   }
   
   // TODO
   def logout = Action {
     Ok(views.html.index("", None)).withNewSession
+  }
+
+  def ideas = Action { request =>
+    request.session.get("twitterAccount") match {
+      case Some(x) => Ok(views.html.ideas(Some(x)))
+      case None => Redirect("/")
+    }
   }
 
 }

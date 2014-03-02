@@ -16,3 +16,4 @@ dist
 *.class
 *.target
 *.db
+twitter4j.properties
