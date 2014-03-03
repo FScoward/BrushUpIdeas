@@ -36,4 +36,9 @@ object Ideas {
   def findAll = database.withTransaction { implicit session: Session =>
     ideas.list
   }
+
+  // 削除
+  def delete(id: Int) = database.withTransaction { implicit session: Session =>
+    ideas.filter(_.id === id).delete
+  }
 }

@@ -29,6 +29,9 @@
             <div class="panel panel-default" ng-repeat="idea in ideas | filter: '@twitterAccount.get' | orderBy: idea.id">
                 <div class="panel-body">
                     {{idea.content}}
+                    <button class="btn pull-right" ng-click="deleteIdea(idea.id)">
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </button>
                 </div>
             </div>
         </div>

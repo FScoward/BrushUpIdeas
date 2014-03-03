@@ -54,4 +54,15 @@ object ContributionController extends Controller {
           Json.toJson(new Idea(idea.id, idea.content, idea.twitterAccount, idea.iine))
         }).toList))
   }
+
+  def deleteIdea(id: Int) = Action { request =>
+    play.Logger.debug("" + request.headers)
+
+    try{
+      models.database.Ideas.delete(id)
+      Ok
+    }catch{
+      case e: Exception => BadRequest
+    }
+  }
 }

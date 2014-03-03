@@ -32,7 +32,7 @@ object LoginController extends Controller {
 //        Ok(views.html.registration.registration(InvitationController.invitationForm))
 
         Cache.get("accessToken") match {
-          case Some(at: AccessToken) =>{
+          case Some(at: AccessToken) => {
             val twitter = TwitterFactory.getSingleton
             twitter.setOAuthAccessToken(at)
             val twitterAccount = twitter.getScreenName
