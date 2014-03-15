@@ -30,7 +30,7 @@
                 <div class="panel-body">
                     {{idea.content}}
                     <button class="btn pull-right" ng-click="deleteIdea(idea.id)">
-                      <span class="glyphicon glyphicon-remove"></span>
+                      <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
             </div>
@@ -47,8 +47,10 @@
                 </div>
                 <div class="panel-footer">
                     @** comment の投稿 **@
-                    <input type="text" placeholder="comment">
-                    <button>comment</button>
+                    <input type="text" placeholder="comment" ng-model="comment">
+                    <button ng-click="commentTo(idea.id, comment, '@twitterAccount.get')" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> comment</button>
+                    <br>
+                    {{comment}}
                 </div>
             </div>
         </div>

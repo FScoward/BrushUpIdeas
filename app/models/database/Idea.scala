@@ -3,8 +3,6 @@ package models.database
 import scala.slick.driver.H2Driver.simple._
 import play.api.db.DB
 import play.api.Play.current
-import play.Logger
-import org.h2.jdbc.JdbcSQLException
 
 case class Idea(id: Int = -1, content: String, twitterAccount: String, iine: Int)
 object Ideas {
@@ -21,7 +19,7 @@ object Ideas {
   }
   
   val ideas = TableQuery[Ideas]
-    
+
   def create(idea: Idea) = database.withTransaction { implicit session: Session =>
     ideas.insert(idea)
   }

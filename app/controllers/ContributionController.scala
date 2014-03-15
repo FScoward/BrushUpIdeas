@@ -5,7 +5,7 @@ import play.api.mvc._
 import org.h2.jdbc.JdbcSQLException
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
-import models.database.Idea
+import models.database.{Ideas, Comments, Comment, Idea}
 
 // アイデアの投稿
 object ContributionController extends Controller {
@@ -14,6 +14,8 @@ object ContributionController extends Controller {
 
   implicit val ideaReads = Json.reads[jsonIdea]
   implicit val ideaWrites = Json.writes[Idea]
+  implicit val commentReads = Json.reads[Comment]
+  implicit val commentWrites = Json.writes[Comment]
 
   def index = Action { request =>
       request.session.get("twitterAccount") match {
@@ -23,7 +25,6 @@ object ContributionController extends Controller {
   }
 
   def createIdea = Action(parse.json) { request =>
-    import models.database._
 
     val twitterAccount = request.session.get("twitterAccount")
 
@@ -64,5 +65,21 @@ object ContributionController extends Controller {
     }catch{
       case e: Exception => BadRequest
     }
+  }
+
+  def commentTo = Action(parse.json) { request =>
+    val json = request.body
+    json.validate[Comment].fold(
+      invalid = {x => BadRequest(x.toString())},
+      valid = (js => {
+        try{
+          Comments.createComment(new Comment(js.ideaId, js.comment, js.twitterAccount))
+          Ok
+        }catch{
+          case e: JdbcSQLException =>
+          Conflict
+        }
+      })
+    )
   }
 }

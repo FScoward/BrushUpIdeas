@@ -48,4 +48,20 @@ function IdeaCreateCtrl($scope, $http) {
       })
     };
     */
+
+    // コメントの投稿
+    $scope.commentTo = function(id, comment, twitterAccount) {
+     var object = new Object();
+     object.ideaId = id;
+     object.comment = comment;
+     object.twitterAccount = twitterAccount;
+
+     $http.post('/commentTo', object).success(function(data, status, headers, config){
+
+     }).error(function(data,status, headers, config){
+     });
+
+      console.log(twitterAccount);
+    };
+
 }
